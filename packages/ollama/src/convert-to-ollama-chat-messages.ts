@@ -21,11 +21,7 @@ export function convertToOllamaChatMessages(
     switch (role) {
       case 'system': {
         messages.push({
-          content: injectToolsSchemaIntoSystem({
-            system: content,
-            toolChoice,
-            tools,
-          }),
+          content,
           role: 'system',
         })
         hasSystem = true
@@ -83,17 +79,6 @@ export function convertToOllamaChatMessages(
         throw new Error(`Unsupported role: ${_exhaustiveCheck}`)
       }
     }
-  }
-
-  if (!hasSystem && tools) {
-    messages.unshift({
-      content: injectToolsSchemaIntoSystem({
-        system: '',
-        toolChoice,
-        tools,
-      }),
-      role: 'system',
-    })
   }
 
   return messages
